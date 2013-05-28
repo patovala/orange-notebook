@@ -3,6 +3,7 @@
 
 Machine learning is an important tool for predictive automated processing. In this notebook we target the basis of Machine learning, classification and naives probabilistic models, given a challenge problem:  Acquire knowledge about the predictive capacity of meteorological data on a particular day of the week.
 
+####The data
 
 Each file is a set of readings corresponding to a given day at a given weather station. The various field values are (in order):
   - The name of the station
