@@ -31,3 +31,5 @@ Each file is a set of readings corresponding to a given day at a given weather s
 
 Missing values are indicated with a question mark (?)
 
+
+The ipython notebook details this thing in a better way.

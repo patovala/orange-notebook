@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+################################################################################
+#                                                                              #
+# Script for testing orange 3 fold test in orange                              #
+#                                                                              #
+# Author: Patricio Valarezo (c) patovala@pupilabox.net.ec                      #
+# uid: 601099 University of Melbourne                                          #
+#                                                                              #
+#                                                                              #
+################################################################################
+import Orange
+import orngTest
+
+# cities = ["adel", "bris", "hob", "perth", "melb"]
+cities = ["adel"]
+
+# create the bayes naive
+bayes = Orange.classification.bayes.NaiveLearner()
+confusion_matrix = []
+
+for city in cities:
+    data = Orange.data.Table("data/%s.train.tab" % city)
+    testdata = Orange.data.Table("../%s.test.tab" % city)
+
+    classifier = bayes(data)
+
+    #test the bayesian classifier using crossvalidation
+    res = orngTest.crossValidation([bayes], data, 3)
+    confusion_matrix.append([
+        #get the accuracy
+        Orange.evaluation.scoring.CA(res)[0],
+        #get the sensitivity
+        Orange.evaluation.scoring.Sensitivity(res)[0],
+        #get the specificity
+        Orange.evaluation.scoring.Specificity(res)[0],
+        #get the presicion
+        Orange.evaluation.scoring.Precision(res)[0]
+        ])
+
+#transpose the data for presentation purpose
+confusion_matrix = [list(i) for i in zip(*confusion_matrix)]
+print "       ", " " . join(cities)
+
+for i in confusion_matrix:
+    print " ".join(["%5.3f" % v for v in i])

@@ -5,11 +5,11 @@
 #----  Author: Ivan Patricio Valarezo 601099 @patovala                     ----#
 #------------------------------------------------------------------------------#
 
-# fixing the data
 import csv
+import orngStat
 
 
-def fixit(filename, trainer=False):
+def fixit(filename):
     """Fix the data to get a Orange tab data output, if the trainer is False
     then the ? are not eliminated from the data stream"""
     filedata = filename + ".tab"
@@ -45,18 +45,18 @@ def fixit(filename, trainer=False):
     #[weekday] The day of the week
 
     features = ["station", "year", "month", "day", "precipitation", "min_temp",
-                "max_temp", "avg_temp", "max_wind", "min_wind", "max_sky",
-                "avg_sky", "min_vis", "max_vis", "avg_vis", "min_dew",
-                "max_dew", "avg_dew", "min_pres", "max_pres", "avg_pres",
-                "weekday"]
+            "max_temp", "avg_temp", "min_wind", "max_wind", "max_sky",
+            "avg_sky", "min_vis", "max_vis", "avg_vis", "min_dew",
+            "max_dew", "avg_dew", "min_pres", "max_pres", "avg_pres",
+            "weekday"]
 
     #features2 = ["string", "c", "c", "c", "d", "d", "d", "d", "d", "d", "d",
-    # PV with an string at the begining the data screws really bad
+    # PV with an string at the begining the data get screwed really bad
     features2 = ["d", "c", "c", "c", "c", "c", "c", "c", "c", "c", "c",
-                "c",  "c",  "c",  "c",  "c", "c", "c",  "c",  "c",  "c",  "d"]
+            "c",  "c",  "c",  "c",  "c", "c", "c",  "c",  "c",  "c",  "d"]
 
     features3 = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-                "", "", "", "", "", "", "class"]
+            "", "", "", "", "", "", "class"]
 
     csv.register_dialect('tabs', delimiter='\t')
 
@@ -68,9 +68,17 @@ def fixit(filename, trainer=False):
             writer.writerow(features2)
             writer.writerow(features3)
             for row in reader:
-                if trainer and not u'?' in row:
-                    writer.writerow(row)
-                if not trainer:
-                    writer.writerow(row)
+                writer.writerow(row)
 
     print "done %s (%s,%s,%s)" % (filedata, len(features), len(features2), len(features3))
+
+
+def print_results(learners, results):
+    # output the results
+    print "Learner     CA    IS     Brier  AUC"
+
+    for i in range(len(learners)):
+        print "%-8s  %5.4f  %5.3f  %5.3f  %5.3f" % (learners[i].name,
+                orngStat.CA(results)[i], orngStat.IS(results)[i],
+                orngStat.BrierScore(results)[i], orngStat.AUC(results)[i])
+
