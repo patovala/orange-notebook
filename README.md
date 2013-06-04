@@ -32,4 +32,4 @@ Each file is a set of readings corresponding to a given day at a given weather s
 Missing values are indicated with a question mark (?)
 
 
-The ipython notebook details this thing in a better way.
+The ipython notebook details this in a better way, you can see the final report [here](http://htmlpreview.github.io/?https://github.com/patovala/orange-notebook/blob/master/print.html)
